@@ -1,0 +1,20 @@
+# ONE-COMMAND LOCAL DEMO (no .env needed):  docker compose -f docker-compose.demo.yml up --build
+# Opens at http://localhost:8080. Development mode, demo seed data, demo password Demo#Pass2026. NOT for production.
+services:
+  db:
+    image: postgres:16-alpine
+    environment: { POSTGRES_USER: pra, POSTGRES_PASSWORD: pra_dev_password, POSTGRES_DB: pra }
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U pra"], interval: 3s, retries: 20 }
+  backend:
+    build: ./backend
+    depends_on: { db: { condition: service_healthy } }
+    environment:
+      ENV: development
+      DATABASE_URL: postgresql+psycopg2://pra:pra_dev_password@db:5432/pra
+      FRONTEND_ORIGIN: http://localhost:8080
+      LOCAL_STORAGE_DIR: /app/storage_data
+    command: ["sh", "-c", "alembic upgrade head && python -m app.cli seed --reset --generate-activation && uvicorn app.main:app --host 0.0.0.0 --port 8000"]
+  frontend:
+    build: ./frontend
+    depends_on: [backend]
+    ports: ["8080:80"]

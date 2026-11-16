@@ -1,0 +1,6 @@
+.venv
+__pycache__
+.pytest_cache
+storage_data
+_previous_attempt
+.env

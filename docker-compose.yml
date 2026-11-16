@@ -1,0 +1,32 @@
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: pra
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:?set POSTGRES_PASSWORD in .env}
+      POSTGRES_DB: pra
+    volumes: [pgdata:/var/lib/postgresql/data]
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U pra"]
+      interval: 5s
+      retries: 10
+  backend:
+    build: ./backend
+    depends_on:
+      db: { condition: service_healthy }
+    environment:
+      ENV: production
+      DATABASE_URL: postgresql+psycopg2://pra:${POSTGRES_PASSWORD}@db:5432/pra
+      SECRET_KEY: ${SECRET_KEY:?set SECRET_KEY in .env}
+      FRONTEND_ORIGIN: http://localhost:8080
+      COOKIE_SECURE: "false"   # local http only; remove behind HTTPS
+      TRUST_PROXY: "true"
+      LOCAL_STORAGE_DIR: /app/storage_data
+    volumes: [uploads:/app/storage_data]
+  frontend:
+    build: ./frontend
+    depends_on: [backend]
+    ports: ["8080:80"]
+volumes:
+  pgdata:
+  uploads:

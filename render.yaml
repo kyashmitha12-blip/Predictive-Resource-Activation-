@@ -1,0 +1,22 @@
+# Render blueprint. Review every value before use; nothing here has been deployed or verified.
+databases:
+  - name: pra-db
+    plan: free
+services:
+  - type: web
+    name: pra-api
+    runtime: docker
+    rootDir: backend
+    healthCheckPath: /api/health
+    envVars:
+      - { key: ENV, value: production }
+      - { key: DATABASE_URL, fromDatabase: { name: pra-db, property: connectionString } }
+      - { key: SECRET_KEY, generateValue: true }
+      - { key: FRONTEND_ORIGIN, sync: false }   # your Vercel URL
+      - { key: COOKIE_SAMESITE, value: lax }   # Vercel rewrites /api, so the browser sees one origin
+      - { key: TRUST_PROXY, value: "true" }
+      - { key: STORAGE_BACKEND, value: s3 }
+      - { key: S3_BUCKET, sync: false }
+      - { key: S3_ENDPOINT_URL, sync: false }
+      - { key: S3_ACCESS_KEY_ID, sync: false }
+      - { key: S3_SECRET_ACCESS_KEY, sync: false }

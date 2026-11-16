@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Design tokens (RGB triplets so Tailwind can apply opacity). Light surfaces for work, night sections for analytics. */
+:root {
+  /* LEND & LOOP palette. Names are kept from the first build so every page re-themes at once.
+     night = forest green, paper = warm ivory, paper-2 = stone, ink = charcoal, cobalt = primary action (forest), lamp = terracotta. */
+  --night: 36 60 50;   --night-2: 46 74 62;   --night-3: 62 94 80;
+  --paper: 245 242 234; --paper-2: 229 224 213;
+  --ink: 41 45 41;     --ink-2: 74 82 75;     --ink-3: 94 105 95;
+  --line: 218 212 198; --line-2: 119 129 120;
+  --cobalt: 36 60 50;  --cobalt-700: 24 42 34; --cobalt-50: 228 235 226;
+  --lamp: 217 119 69;  --lamp-700: 158 72 28;  --lamp-50: 251 236 225;
+  --go: 52 112 78;     --go-50: 226 239 229;
+  --alert: 168 54 46;  --alert-50: 249 229 225;
+}
+
+@layer base {
+  html { -webkit-text-size-adjust: 100%; }
+  html { background: rgb(var(--paper)); }
+  body { @apply bg-paper font-sans text-ink antialiased; font-size: 15px; line-height: 1.6; min-height: 100vh; }
+  #root { min-height: 100vh; }
+  h1, h2, h3, h4 { @apply font-display text-ink; letter-spacing: -0.02em; line-height: 1.12; font-weight: 700; }
+  h1 { @apply text-3xl font-extrabold sm:text-4xl; }
+  h2 { @apply text-2xl font-bold; }
+  h3 { @apply text-lg font-bold; }
+  :focus-visible { outline: 2px solid rgb(var(--cobalt)); outline-offset: 2px; border-radius: 4px; }
+  .on-night :focus-visible { outline-color: rgb(var(--lamp)); }
+  ::selection { background: rgb(var(--lamp) / 0.35); }
+  @media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation: none !important; transition: none !important; } }
+}
+
+@layer components {
+  .num { font-variant-numeric: tabular-nums; }
+  .panel { @apply rounded-panel border border-line bg-white; }
+  .panel-pad { @apply p-5; }
+  /* Forest sections: flat green with a faint workshop pegboard dot grid. Plain CSS, no image files, nothing to fail to load. */
+  .on-night { @apply bg-night text-white; background-image: radial-gradient(rgb(245 242 234 / 0.07) 1px, transparent 1.2px); background-size: 22px 22px; }
+  /* Page canvas for ivory sections: a very faint dot grid so large empty areas are not a flat slab. */
+  .bg-canvas { background-color: rgb(var(--paper)); background-image: radial-gradient(rgb(41 45 41 / 0.055) 1px, transparent 1.2px); background-size: 24px 24px; }
+  .bg-stone { background-color: rgb(var(--paper-2)); }
+  .eyebrow { @apply font-display text-xs font-bold uppercase text-lamp-700; letter-spacing: 0.14em; }
+  .on-night .eyebrow { @apply text-lamp; }
+  .on-night h1, .on-night h2, .on-night h3, .on-night h4 { @apply text-white; }
+  .panel-night { @apply rounded-panel border border-white/10 bg-night-2 text-white; background-image: none; }
+  .link { @apply text-cobalt underline decoration-cobalt/30 underline-offset-2 hover:decoration-cobalt; }
+  .muted { @apply text-ink-3; }
+  .container-x { @apply mx-auto w-full max-w-6xl px-4 sm:px-6; }
+}
