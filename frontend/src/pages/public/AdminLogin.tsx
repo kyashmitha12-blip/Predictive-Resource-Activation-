@@ -1,4 +1,4 @@
-import { ShieldCheck } from "lucide-react";
+import { ShieldCheck, Sparkles } from "lucide-react";
 import { FormEvent, useState } from "react";
 import { Link, Navigate } from "react-router-dom";
 import { Button, FormError, Input, LogoMark, PasswordInput } from "@/components/ui";
@@ -36,31 +36,53 @@ export default function AdminLogin() {
   if (user) return <Navigate to={homeFor(user.role)} replace />;
 
   return (
-    <div className="on-night flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-14 sm:px-6">
-      <div className="w-full max-w-sm">
+    <div className="on-night flex min-h-[calc(100vh-4rem)] items-center justify-center px-4 py-16 sm:px-6 relative overflow-hidden">
+      <div className="pointer-events-none absolute -top-40 left-1/2 -z-10 h-[500px] w-[600px] -translate-x-1/2 rounded-full bg-cobalt/20 blur-[120px]" />
+      <div className="w-full max-w-md">
         <div className="flex flex-col items-center text-center">
-          <LogoMark size={40} onNight />
-          <div className="mt-5 flex items-center gap-2">
-            <ShieldCheck className="h-4 w-4 text-lamp" aria-hidden />
-            <p className="eyebrow">Administrator access</p>
+          <LogoMark size={44} onNight />
+          <div className="mt-5 inline-flex items-center gap-1.5 rounded-full border border-white/15 bg-white/5 px-3 py-1 text-xs text-lamp">
+            <ShieldCheck className="h-4 w-4" aria-hidden />
+            <span className="font-bold uppercase tracking-wider">Institution Portal</span>
           </div>
-          <h1 className="mt-2 text-3xl text-white">Administrator Login</h1>
-          <p className="mt-2 text-sm text-white/70">Manage your institution's shared resources.</p>
+          <h1 className="mt-3 text-3xl font-extrabold text-white tracking-tight sm:text-4xl">Administrator Access</h1>
+          <p className="mt-2 text-sm text-white/70">Secure operations &amp; resource intelligence dashboard</p>
         </div>
 
-        <form onSubmit={submit} noValidate className="panel-night mt-8 space-y-5 p-6 sm:p-7">
-          <FormError message={error} />
-          <div className="[&_label]:!text-white/80">
-            <Input label="Admin email" type="email" autoComplete="email" inputMode="email" value={email} onChange={(e) => setEmail(e.target.value)} error={fields.email} />
-          </div>
-          <div className="[&_label]:!text-white/80">
-            <PasswordInput label="Password" autoComplete="current-password" value={password} onChange={(e) => setPassword(e.target.value)} error={fields.password} />
-          </div>
-          <Button type="submit" size="lg" loading={busy} className="w-full">{busy ? "Signing in…" : "Sign In"}</Button>
-        </form>
+        <div className="panel-night mt-8 rounded-panel-lg border border-white/10 bg-slate-900/80 backdrop-blur-xl p-7 sm:p-8 shadow-2xl">
+          <form onSubmit={submit} noValidate className="space-y-5">
+            <FormError message={error} />
+            <div className="[&_label]:!text-white/80">
+              <Input
+                label="Admin email"
+                type="email"
+                autoComplete="email"
+                inputMode="email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+                error={fields.email}
+              />
+            </div>
+            <div className="[&_label]:!text-white/80">
+              <PasswordInput
+                label="Password"
+                autoComplete="current-password"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+                error={fields.password}
+              />
+            </div>
+            <Button type="submit" size="lg" loading={busy} variant="lamp" className="w-full">
+              {busy ? "Authenticating…" : "Sign In to Admin Console"}
+            </Button>
+          </form>
+        </div>
 
-        <p className="mt-6 text-center text-sm text-white/60">
-          Not an administrator? <Link to="/login" className="font-medium text-white underline underline-offset-2">Back to Student Login</Link>
+        <p className="mt-6 text-center text-xs text-white/60">
+          Not an administrator?{" "}
+          <Link to="/login" className="font-semibold text-white underline underline-offset-4 hover:text-lamp transition-colors">
+            Back to Student Sign In
+          </Link>
         </p>
       </div>
     </div>

@@ -1,4 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
+import { AlertCircle } from "lucide-react";
 import { ReactNode } from "react";
 import { Link } from "react-router-dom";
 import { Button, useToast } from "@/components/ui";
@@ -20,17 +21,21 @@ export function VerificationBanner() {
     text = "Confirm your email address to start your student verification.";
     action = <Button size="sm" variant="secondary" loading={resend.isPending} onClick={() => resend.mutate()}>Resend email</Button>;
   } else if (user.verification_status === "pending") {
-    text = "Your student verification is waiting for an administrator. You can browse, but not list or book yet.";
+    text = "Your student verification is waiting for administrator review. You can browse resources in the meantime.";
   } else if (user.verification_status === "rejected") {
     text = `Your verification was rejected${user.verification_reason ? `: ${user.verification_reason}` : "."}`;
-    action = <Link to="/app/profile" className="link text-sm">Submit again</Link>;
+    action = <Link to="/app/profile" className="link text-sm font-semibold">Submit again</Link>;
   } else {
-    text = "Submit your student details to list resources and request bookings.";
-    action = <Link to="/app/profile" className="link text-sm">Start verification</Link>;
+    text = "Submit your student ID details to unlock listing resources and booking campus gear.";
+    action = <Link to="/app/profile" className="link text-sm font-semibold">Start verification</Link>;
   }
   return (
-    <div role="status" className="flex flex-wrap items-center justify-between gap-2 border-b border-lamp/40 bg-lamp-50 px-4 py-2 text-sm text-ink sm:px-6">
-      <span>{text}</span>{action}
+    <div role="status" className="flex flex-wrap items-center justify-between gap-3 border-b border-lamp/30 bg-lamp-50/70 px-4 py-2.5 text-xs sm:text-sm font-medium text-slate-900 sm:px-6">
+      <div className="flex items-center gap-2">
+        <AlertCircle className="h-4 w-4 shrink-0 text-lamp-700" aria-hidden />
+        <span>{text}</span>
+      </div>
+      {action}
     </div>
   );
 }

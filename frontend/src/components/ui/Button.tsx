@@ -5,15 +5,19 @@ import { Link, LinkProps } from "react-router-dom";
 
 type Variant = "primary" | "secondary" | "ghost" | "danger" | "lamp";
 type Size = "sm" | "md" | "lg";
-const base = "inline-flex items-center justify-center gap-2 rounded-ctl font-medium transition-colors disabled:cursor-not-allowed disabled:opacity-50 select-none whitespace-nowrap";
+const base = "inline-flex items-center justify-center gap-2 rounded-ctl font-semibold transition-all duration-150 active:scale-[0.98] disabled:cursor-not-allowed disabled:opacity-50 disabled:pointer-events-none select-none whitespace-nowrap";
 const variants: Record<Variant, string> = {
-  primary: "bg-cobalt text-white hover:bg-cobalt-700",
-  secondary: "border border-line-2 bg-white text-ink hover:bg-paper-2",
-  ghost: "text-ink-2 hover:bg-paper-2 hover:text-ink",
-  danger: "bg-alert text-white hover:bg-alert/90",
-  lamp: "bg-lamp text-[#16231C] font-semibold hover:bg-[#E08A5C]",
+  primary: "bg-cobalt text-white shadow-sm hover:bg-cobalt-700 hover:shadow-md hover:shadow-cobalt/20",
+  secondary: "border border-line bg-white text-ink shadow-sm hover:bg-paper-2 hover:border-line-2 hover:text-ink",
+  ghost: "text-ink-2 shadow-none hover:bg-paper-2 hover:text-ink",
+  danger: "bg-alert text-white shadow-sm hover:bg-alert/90 hover:shadow-md hover:shadow-alert/20",
+  lamp: "bg-lamp text-slate-900 font-bold shadow-sm hover:brightness-105 hover:shadow-md hover:shadow-lamp/25",
 };
-const sizes: Record<Size, string> = { sm: "h-8 px-3 text-sm", md: "h-10 px-4 text-sm", lg: "h-12 px-6 text-base" };
+const sizes: Record<Size, string> = {
+  sm: "h-8 px-3 text-xs",
+  md: "h-10 px-4 text-sm",
+  lg: "h-12 px-6 text-base",
+};
 export const buttonClass = (variant: Variant = "primary", size: Size = "md", extra?: string) => clsx(base, variants[variant], sizes[size], extra);
 
 interface Props extends ButtonHTMLAttributes<HTMLButtonElement> { variant?: Variant; size?: Size; loading?: boolean }

@@ -4,10 +4,14 @@ import { Pilot } from "./Pilot";
 
 type Tone = "neutral" | "info" | "lamp" | "go" | "alert";
 const tones: Record<Tone, string> = {
-  neutral: "bg-paper-2 text-ink-2", info: "bg-cobalt-50 text-cobalt-700", lamp: "bg-lamp-50 text-lamp-700", go: "bg-go-50 text-go", alert: "bg-alert-50 text-alert",
+  neutral: "bg-paper-2 text-ink-2 border border-line/60",
+  info: "bg-cobalt-50 text-cobalt-700 border border-cobalt/20",
+  lamp: "bg-lamp-50 text-lamp-700 border border-lamp/30",
+  go: "bg-go-50 text-go border border-go/20",
+  alert: "bg-alert-50 text-alert border border-alert/20",
 };
 export function Badge({ tone = "neutral", children, className }: { tone?: Tone; children: ReactNode; className?: string }) {
-  return <span className={clsx("inline-flex items-center gap-1.5 rounded-ctl px-2 py-0.5 text-xs font-medium", tones[tone], className)}>{children}</span>;
+  return <span className={clsx("inline-flex items-center gap-1.5 rounded-full px-2.5 py-0.5 text-xs font-semibold tracking-wide", tones[tone], className)}>{children}</span>;
 }
 
 const STATUS: Record<string, { tone: Tone; text: string; pilot?: "idle" | "lit" | "pending" }> = {
@@ -29,4 +33,4 @@ export function StatusChip({ status, resourceActive }: { status: string; resourc
   const text = status === "active" && resourceActive ? "Shared" : s.text;
   return <Badge tone={s.tone}>{pilot && <Pilot state={pilot} size={8} />}{text}</Badge>;
 }
-export const DemoBadge = ({ label = "Demo data" }: { label?: string }) => <Badge tone="lamp" className="border border-lamp/40">{label}</Badge>;
+export const DemoBadge = ({ label = "Demo data" }: { label?: string }) => <Badge tone="lamp" className="border border-lamp/40 font-bold">{label}</Badge>;
