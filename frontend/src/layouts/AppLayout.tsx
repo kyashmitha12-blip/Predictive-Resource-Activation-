@@ -27,6 +27,7 @@ import {
 import { ReactNode, useEffect, useState } from "react";
 import { NavLink, Outlet, useLocation, useNavigate } from "react-router-dom";
 import { NotificationBell } from "@/components/NotificationBell";
+import { ChatAssistant } from "@/components/ChatAssistant";
 import { VerificationBanner } from "@/components/VerificationBanner";
 import { Logo } from "@/components/ui";
 import { useAuth } from "@/hooks/useAuth";
@@ -239,6 +240,7 @@ export function AppLayout({ mode }: { mode: "student" | "admin" }) {
           <Outlet />
         </main>
       </div>
+      <ChatAssistant />
     </div>
   );
 }

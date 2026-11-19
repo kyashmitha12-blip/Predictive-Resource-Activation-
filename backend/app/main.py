@@ -8,7 +8,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import JSONResponse
 from sqlalchemy import text
 
-from app.api import admin, auth, bookings, insights, notifications, resources
+from app.api import admin, auth, bookings, chat, insights, notifications, resources
 from app.config import settings
 from app.database import engine
 
@@ -46,7 +46,7 @@ async def validation_handler(request: Request, exc: RequestValidationError):
     return JSONResponse({"detail": f"{first['field']}: {first['message']}".strip(": "), "errors": fields}, status_code=422)
 
 
-for r in (auth.router, resources.router, bookings.router, notifications.router, insights.router, admin.router):
+for r in (auth.router, resources.router, bookings.router, notifications.router, insights.router, chat.router, admin.router):
     app.include_router(r)
 
 

@@ -22,6 +22,10 @@ class Strict(BaseModel):
     model_config = ConfigDict(str_strip_whitespace=True, extra="forbid")
 
 
+class ChatIn(Strict):
+    message: str = Field(min_length=1, max_length=500)
+
+
 class RegisterIn(Strict):
     name: str = Field(min_length=2, max_length=120)
     email: EmailStr

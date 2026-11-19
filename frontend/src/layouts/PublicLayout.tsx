@@ -2,6 +2,7 @@ import { Menu, ShieldCheck, Sparkles, X } from "lucide-react";
 import { useState } from "react";
 import { Link, NavLink, Outlet } from "react-router-dom";
 import { LinkButton, Logo } from "@/components/ui";
+import { ChatAssistant } from "@/components/ChatAssistant";
 import { homeFor, useAuth } from "@/hooks/useAuth";
 
 const links = [
@@ -125,6 +126,7 @@ export function PublicLayout({ dark = false }: { dark?: boolean }) {
       <main className="flex-1 bg-canvas">
         <Outlet />
       </main>
+      <ChatAssistant />
 
       <footer className="on-night border-t border-white/10">
         <div className="container-x grid gap-10 py-14 md:grid-cols-[1.5fr_1fr_1fr]">
